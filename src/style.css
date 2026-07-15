@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #05070a;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+#scene-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+#ui-root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.panel {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 10;
+  background: rgba(10, 16, 22, 0.85);
+  border: 1px solid rgba(120, 200, 255, 0.25);
+  border-radius: 6px;
+  color: #d7ecff;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.module-panel {
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.module-panel h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7fb8e0;
+  margin-right: 4px;
+}
+
+.module-btn {
+  pointer-events: auto;
+  border: 1px solid rgba(120, 200, 255, 0.3);
+  background: rgba(20, 32, 42, 0.9);
+  color: #d7ecff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.module-btn:hover {
+  background: rgba(40, 60, 76, 0.95);
+  border-color: rgba(120, 200, 255, 0.7);
+}
+
+.module-btn.active {
+  border-color: #6fe0ff;
+  box-shadow: 0 0 8px rgba(111, 224, 255, 0.6);
+}
+
+.module-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.status-bar {
+  top: 16px;
+  left: 16px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: #9fd0f0;
+}
+
+.hint-bar {
+  top: 16px;
+  right: 16px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #6f93ab;
+  max-width: 260px;
+  text-align: right;
+}
