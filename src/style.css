@@ -95,6 +95,90 @@ html, body, #app {
   color: #9fd0f0;
 }
 
+.crew-panel {
+  top: 64px;
+  left: 16px;
+  width: 240px;
+  max-height: calc(100vh - 200px);
+  padding: 10px 12px;
+  overflow-y: auto;
+}
+
+.crew-panel h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7fb8e0;
+  margin-bottom: 8px;
+}
+
+.crew-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.crew-card {
+  border: 1px solid rgba(120, 200, 255, 0.2);
+  background: rgba(20, 32, 42, 0.7);
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.crew-card:hover {
+  background: rgba(40, 60, 76, 0.85);
+}
+
+.crew-card.active {
+  border-color: #6fe0ff;
+  box-shadow: 0 0 8px rgba(111, 224, 255, 0.5);
+}
+
+.crew-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.crew-assignment {
+  color: #6f93ab;
+  font-size: 11px;
+}
+
+.crew-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.stat-chip {
+  font-size: 10px;
+  color: #9fd0f0;
+  background: rgba(120, 200, 255, 0.08);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.recall-btn {
+  pointer-events: auto;
+  margin-top: 6px;
+  width: 100%;
+  border: 1px solid rgba(255, 120, 120, 0.4);
+  background: rgba(60, 20, 20, 0.6);
+  color: #ffb0b0;
+  border-radius: 4px;
+  padding: 3px 0;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.recall-btn:hover {
+  background: rgba(90, 30, 30, 0.8);
+}
+
 .hint-bar {
   top: 16px;
   right: 16px;

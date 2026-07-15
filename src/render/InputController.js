@@ -3,13 +3,15 @@ import { getModuleType } from "../core/moduleTypes.js";
 import { LEVEL_COLUMNS } from "../core/Station.js";
 
 export class InputController {
-  constructor({ canvas, camera, station, renderer, onChange, getSelectedType }) {
+  constructor({ canvas, camera, station, renderer, roster, onChange, getSelectedType, getSelectedCrew }) {
     this.canvas = canvas;
     this.camera = camera;
     this.station = station;
     this.renderer = renderer;
+    this.roster = roster;
     this.onChange = onChange;
     this.getSelectedType = getSelectedType;
+    this.getSelectedCrew = getSelectedCrew;
 
     this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2();
@@ -51,6 +53,16 @@ export class InputController {
       return;
     }
 
+    const selectedCrewId = this.getSelectedCrew?.();
+    if (selectedCrewId && hit.kind === "module") {
+      const occupants = this.roster.membersInModule(hit.moduleId).length;
+      const capacity = this.roster.capacityFor(this.station, hit.moduleId);
+      const module = this.station.modules.get(hit.moduleId);
+      this.renderer.showGhost(hit.level, module.startCol, module.width, occupants < capacity);
+      this.onChange({ hover: hit });
+      return;
+    }
+
     const selectedTypeId = this.getSelectedType();
     if (selectedTypeId && (hit.kind === "empty" || hit.kind === "module")) {
       const type = getModuleType(selectedTypeId);
@@ -73,6 +85,19 @@ export class InputController {
     if (hit.kind === "rock") {
       if (this.station.excavate(hit.level)) {
         this.onChange({ rebuild: true, message: `Excavated deck ${hit.level + 1}.` });
+      }
+      return;
+    }
+
+    const selectedCrewId = this.getSelectedCrew?.();
+    if (selectedCrewId && hit.kind === "module") {
+      const assigned = this.roster.assign(this.station, selectedCrewId, hit.moduleId);
+      if (assigned) {
+        const member = this.roster.members.get(selectedCrewId);
+        const type = getModuleType(this.station.modules.get(hit.moduleId).typeId);
+        this.onChange({ crewMoved: true, message: `${member.name} posted to ${type.name}.` });
+      } else {
+        this.onChange({ message: "That module is at capacity." });
       }
       return;
     }

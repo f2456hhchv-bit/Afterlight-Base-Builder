@@ -14,7 +14,7 @@ export class ModulePanel {
     this.statusEl.textContent = "Afterlight Station — Deck 1";
 
     this.hintEl = this._makeEl("div", "panel", "hint-bar");
-    this.hintEl.textContent = "Select a module, click an empty slot to build it. Click grey rock to excavate the next deck.";
+    this.hintEl.textContent = "Select a module below to build it, or select crew to post them. Click grey rock to excavate the next deck.";
 
     this.moduleEl = this._makeEl("div", "panel", "module-panel");
     const title = document.createElement("h3");
@@ -52,5 +52,10 @@ export class ModulePanel {
 
   setStatus(text) {
     this.statusEl.textContent = text;
+  }
+
+  clearSelection() {
+    this.selectedTypeId = null;
+    for (const btn of this.buttons.values()) btn.classList.remove("active");
   }
 }
