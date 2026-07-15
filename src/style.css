@@ -237,6 +237,81 @@ html, body, #app {
   background: rgba(90, 30, 30, 0.8);
 }
 
+.threat-panel {
+  top: 64px;
+  right: 16px;
+  width: 240px;
+  max-height: calc(100vh - 200px);
+  padding: 10px 12px;
+  overflow-y: auto;
+}
+
+.threat-panel h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ff8080;
+  margin-bottom: 8px;
+}
+
+.threat-empty {
+  font-size: 12px;
+  color: #6f93ab;
+}
+
+.threat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.threat-row {
+  border: 1px solid rgba(255, 100, 100, 0.35);
+  background: rgba(60, 20, 20, 0.35);
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+
+.threat-row-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #ffb0b0;
+  margin-bottom: 3px;
+}
+
+.threat-target {
+  color: #d7ecff;
+  font-size: 11px;
+}
+
+.threat-desc {
+  font-size: 11px;
+  color: #c9a0a0;
+  margin-bottom: 6px;
+}
+
+.threat-timer {
+  font-size: 11px;
+  color: #9fd0f0;
+}
+
+.resolve-btn {
+  pointer-events: auto;
+  width: 100%;
+  border: 1px solid rgba(120, 220, 160, 0.5);
+  background: rgba(20, 60, 30, 0.6);
+  color: #b0ffcf;
+  border-radius: 4px;
+  padding: 3px 0;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.resolve-btn:hover {
+  background: rgba(30, 90, 45, 0.8);
+}
+
 .hint-bar {
   top: 16px;
   right: 16px;

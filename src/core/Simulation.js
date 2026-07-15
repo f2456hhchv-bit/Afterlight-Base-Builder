@@ -1,4 +1,5 @@
 import { getModuleType } from "./moduleTypes.js";
+import { getEventType } from "./eventTypes.js";
 
 const BASE_CAPACITY = 100;
 const CONSUMPTION_PER_CREW = { food: 0.5, water: 0.5 };
@@ -31,18 +32,30 @@ export class Simulation {
     }
   }
 
-  _productionAndUpkeep(station, roster) {
+  _productionAndUpkeep(station, roster, eventManager) {
     const production = { power: 0, food: 0, water: 0 };
     let powerUpkeep = 0;
     let medbayStaffed = false;
+
+    const stationMultiplier = eventManager
+      ? eventManager.stationWideEvents().reduce((m, e) => m * getEventType(e.typeId).productionMultiplier, 1)
+      : 1;
 
     for (const module of station.modules.values()) {
       const type = getModuleType(module.typeId);
       powerUpkeep += type.upkeep ?? 0;
 
+      const moduleEvents = eventManager ? eventManager.eventsForModule(module.id) : [];
+      let moduleMultiplier = stationMultiplier;
+      for (const event of moduleEvents) {
+        const eventType = getEventType(event.typeId);
+        moduleMultiplier *= eventType.productionMultiplier;
+        powerUpkeep += eventType.extraUpkeep ?? 0;
+      }
+
       const occupants = roster.membersInModule(module.id).length;
       if (type.produces && occupants > 0) {
-        production[type.produces.resource] += occupants * type.produces.ratePerCrew;
+        production[type.produces.resource] += occupants * type.produces.ratePerCrew * moduleMultiplier;
       }
       if (type.happinessBonusWhenStaffed && occupants > 0) {
         medbayStaffed = true;
@@ -52,9 +65,9 @@ export class Simulation {
     return { production, powerUpkeep, medbayStaffed };
   }
 
-  update(dt, station, roster) {
+  update(dt, station, roster, eventManager) {
     this._recomputeCapacities(station);
-    const { production, powerUpkeep, medbayStaffed } = this._productionAndUpkeep(station, roster);
+    const { production, powerUpkeep, medbayStaffed } = this._productionAndUpkeep(station, roster, eventManager);
     const population = roster.list().length;
 
     const net = {
@@ -69,11 +82,21 @@ export class Simulation {
     }
 
     const crisis = RESOURCE_KEYS.some((key) => this.resources[key].amount <= 0);
+    const stationHappinessPenalty = eventManager
+      ? eventManager.stationWideEvents().reduce((sum, e) => sum + getEventType(e.typeId).happinessPenalty, 0)
+      : 0;
+
     for (const member of roster.list()) {
       let target = 70;
       target += member.assignedModuleId ? 15 : -10;
       if (crisis) target -= 30;
       if (medbayStaffed) target += 8;
+      target += stationHappinessPenalty;
+      if (eventManager && member.assignedModuleId) {
+        for (const event of eventManager.eventsForModule(member.assignedModuleId)) {
+          target += getEventType(event.typeId).happinessPenalty;
+        }
+      }
       target = clamp(target, 0, 100);
       member.happiness += (target - member.happiness) * HAPPINESS_CONVERGE_RATE * dt;
       member.happiness = clamp(member.happiness, 0, 100);
