@@ -95,6 +95,58 @@ html, body, #app {
   color: #9fd0f0;
 }
 
+.resource-bar {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.resource-meter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.resource-label {
+  color: #9fd0f0;
+  min-width: 34px;
+}
+
+.resource-track {
+  width: 80px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.resource-track.critical {
+  box-shadow: 0 0 6px rgba(255, 80, 80, 0.9);
+}
+
+.resource-fill {
+  height: 100%;
+  transition: width 0.2s linear;
+}
+
+.resource-value {
+  color: #d7ecff;
+  min-width: 52px;
+  font-variant-numeric: tabular-nums;
+}
+
+.happiness-readout {
+  font-size: 12px;
+  font-weight: 600;
+  padding-left: 8px;
+  border-left: 1px solid rgba(120, 200, 255, 0.25);
+}
+
 .crew-panel {
   top: 64px;
   left: 16px;
@@ -146,6 +198,12 @@ html, body, #app {
 .crew-assignment {
   color: #6f93ab;
   font-size: 11px;
+}
+
+.crew-happiness {
+  font-size: 10px;
+  color: #7fb8e0;
+  margin-bottom: 4px;
 }
 
 .crew-stats {

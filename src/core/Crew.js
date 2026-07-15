@@ -29,6 +29,7 @@ export class CrewMember {
     this.name = name;
     this.stats = stats;
     this.assignedModuleId = null;
+    this.happiness = 60;
   }
 }
 

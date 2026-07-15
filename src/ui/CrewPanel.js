@@ -33,6 +33,7 @@ export class CrewPanel {
   _buildCard(station, member) {
     const card = document.createElement("div");
     card.className = "crew-card";
+    card.dataset.crewId = member.id;
     if (member.id === this.selectedCrewId) card.classList.add("active");
 
     const header = document.createElement("div");
@@ -51,6 +52,11 @@ export class CrewPanel {
     }
     header.appendChild(assignment);
     card.appendChild(header);
+
+    const happiness = document.createElement("div");
+    happiness.className = "crew-happiness";
+    happiness.textContent = `Morale ${Math.round(member.happiness)}%`;
+    card.appendChild(happiness);
 
     const stats = document.createElement("div");
     stats.className = "crew-stats";
